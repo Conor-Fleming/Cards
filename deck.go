@@ -1,6 +1,6 @@
-//go:generate stringer -type=Suit,Value
-
 package deck
+
+//go:generate stringer -type=Suit,Value
 
 type Suit uint8
 

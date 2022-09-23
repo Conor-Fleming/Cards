@@ -1,3 +1,3 @@
-module github.com/Conor-Fleming/Card
+module github.com/Conor-Fleming/deck
 
 go 1.19
