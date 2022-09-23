@@ -1,3 +1,5 @@
+//go:generate stringer -type=Suit,Value
+
 package deck
 
 type Suit uint8
@@ -33,6 +35,6 @@ type Card struct {
 	Suit
 }
 
-func (c *Card) New() []Card {
+//func (c *Card) New() []Card {
 
-}
+//}
