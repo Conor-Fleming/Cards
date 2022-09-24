@@ -9,7 +9,6 @@ const (
 	Diamond
 	Club
 	Spade
-	//Joker
 )
 
 type Value uint8
@@ -37,14 +36,15 @@ type Card struct {
 
 func (c *Card) New() []Card {
 	var deck []Card
-	for _, suit := range _Suit_index {
-		for _, val := range _Value_index {
+	for i := 1; i < 5; i++ {
+		for y := 1; y < 14; y++ {
 			card := Card{
-				Value: Value(val),
-				Suit:  Suit(suit),
+				Value: Value(y),
+				Suit:  Suit(i),
 			}
 			deck = append(deck, card)
 		}
 	}
 	return deck
+
 }
