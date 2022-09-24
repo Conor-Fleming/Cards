@@ -46,5 +46,12 @@ func (c *Card) New() []Card {
 		}
 	}
 	return deck
+}
 
+func (c *Card) Sort(deck []Card) []Card {
+	return nil
+}
+
+func (c *Card) Shuffle(deck []Card) []Card {
+	return nil
 }

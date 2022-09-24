@@ -20,5 +20,4 @@ func TestNew(t *testing.T) {
 	if equalityCheck != true {
 		t.Errorf("got %q, wanted %q", result, expected)
 	}
-
 }
