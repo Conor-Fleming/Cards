@@ -1,6 +1,7 @@
 package deck
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -13,11 +14,11 @@ var deck = []Card{
 }
 
 func TestNew(t *testing.T) {
-	c := Card{}
 	expected := deck
-	result := c.New()
+	result := New()
 	equalityCheck := reflect.DeepEqual(expected, result)
 	if equalityCheck != true {
 		t.Errorf("got %q, wanted %q", result, expected)
 	}
+	fmt.Println(result)
 }

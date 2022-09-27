@@ -1,5 +1,7 @@
 package deck
 
+import "fmt"
+
 //go:generate stringer -type=Suit,Value
 
 type Suit uint8
@@ -34,7 +36,11 @@ type Card struct {
 	Suit
 }
 
-func (c *Card) New() []Card {
+func (c Card) String() string {
+	return fmt.Sprintf("%v of %vs", c.Value.String(), c.Suit.String())
+}
+
+func New() []Card {
 	var deck []Card
 	for i := 1; i < 5; i++ {
 		for y := 1; y < 14; y++ {
