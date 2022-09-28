@@ -23,8 +23,8 @@ func TestNew(t *testing.T) {
 }
 
 func TestShuffle(t *testing.T) {
-	first := New(Shuffle)
-	second := New(Shuffle)
+	first := Shuffle(deck)
+	second := Shuffle(deck)
 	isEqual := reflect.DeepEqual(first, second)
 	if isEqual == true {
 		t.Errorf("Error, both versions of the shuffled deck are the same\n %v,\n %v", first, second)
