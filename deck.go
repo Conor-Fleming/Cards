@@ -3,7 +3,6 @@ package deck
 import (
 	"fmt"
 	"math/rand"
-	"time"
 )
 
 //go:generate stringer -type=Suit,Value
@@ -16,6 +15,8 @@ const (
 	Club
 	Heart
 )
+
+var suits = []Suit{Spade, Diamond, Club, Heart}
 
 type Value uint8
 
@@ -35,12 +36,17 @@ const (
 	King
 )
 
+const (
+	minVal = Ace
+	maxVal = King
+)
+
 type Card struct {
 	Value
 	Suit
 }
 
-func (c Card) String() string {
+func (c *Card) String() string {
 	return fmt.Sprintf("%v of %vs", c.Value.String(), c.Suit.String())
 }
 
@@ -48,11 +54,11 @@ func (c Card) String() string {
 // without any options this will return the deck in the form of a brand new deck each suit in ascending order (A-K)
 func New(opts ...func([]Card) []Card) []Card {
 	var deck []Card
-	for i := 1; i < 5; i++ {
-		for y := 1; y < 14; y++ {
+	for _, suit := range suits {
+		for val := minVal; minVal <= maxVal; val++ {
 			card := Card{
-				Value: Value(y),
-				Suit:  Suit(i),
+				Value: val,
+				Suit:  suit,
 			}
 			deck = append(deck, card)
 		}
@@ -68,7 +74,7 @@ func New(opts ...func([]Card) []Card) []Card {
 //}
 
 func Shuffle(deck []Card) []Card {
-	rand.Seed(time.Now().Unix())
+	//rand.Seed(time.Now().Unix())
 	rand.Shuffle(len(deck), func(i, j int) {
 		deck[i], deck[j] = deck[j], deck[i]
 	})
