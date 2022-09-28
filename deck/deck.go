@@ -3,6 +3,7 @@ package deck
 import (
 	"fmt"
 	"math/rand"
+	"time"
 )
 
 //go:generate stringer -type=Suit,Value
@@ -67,6 +68,7 @@ func New(opts ...func([]Card) []Card) []Card {
 //}
 
 func Shuffle(deck []Card) []Card {
+	rand.Seed(time.Now().Unix())
 	rand.Shuffle(len(deck), func(i, j int) {
 		deck[i], deck[j] = deck[j], deck[i]
 	})
