@@ -12,11 +12,12 @@ func _() {
 	_ = x[Diamond-2]
 	_ = x[Club-3]
 	_ = x[Heart-4]
+	_ = x[Joker-5]
 }
 
-const _Suit_name = "SpadeDiamondClubHeart"
+const _Suit_name = "SpadeDiamondClubHeartJoker"
 
-var _Suit_index = [...]uint8{0, 5, 12, 16, 21}
+var _Suit_index = [...]uint8{0, 5, 12, 16, 21, 26}
 
 func (i Suit) String() string {
 	i -= 1

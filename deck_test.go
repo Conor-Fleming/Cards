@@ -29,3 +29,13 @@ func TestShuffle(t *testing.T) {
 		t.Errorf("Error, both versions of the shuffled deck are the same\n %v,\n %v", first, second)
 	}
 }
+
+func TestJokers(t *testing.T) {
+	for i := 1; i < 5; i++ {
+		one_joker := Jokers(i)
+		deck := New(one_joker)
+		if len(deck) != (52 + i) {
+			t.Errorf("wrong amount of Jokers in deck. Expected %v jokers but have %v", i, len(deck)-i)
+		}
+	}
+}
