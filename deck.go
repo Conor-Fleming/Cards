@@ -76,9 +76,12 @@ func New(opts ...func([]Card) []Card) []Card {
 //}
 
 func Shuffle(deck []Card) []Card {
-	rand.Seed(time.Now().Unix())
-	rand.Shuffle(len(deck), func(i, j int) {
-		deck[i], deck[j] = deck[j], deck[i]
-	})
-	return deck
+	temp := make([]Card, len(deck))
+	rand.Seed(time.Now().UnixNano())
+	perm := rand.Perm(len(deck))
+
+	for i, v := range perm {
+		temp[v] = deck[i]
+	}
+	return temp
 }
