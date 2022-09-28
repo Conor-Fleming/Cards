@@ -17,9 +17,8 @@ func TestNew(t *testing.T) {
 	result := New()
 	equalityCheck := reflect.DeepEqual(expected, result)
 	if equalityCheck != true {
-		t.Errorf("got %q\n, wanted %q", result, expected)
+		t.Errorf("got %q, wanted %q", result, expected)
 	}
-	//fmt.Println(result)
 }
 
 func TestShuffle(t *testing.T) {

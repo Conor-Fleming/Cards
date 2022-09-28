@@ -57,7 +57,7 @@ func (c Card) String() string {
 func New(opts ...func([]Card) []Card) []Card {
 	var deck []Card
 	for _, suit := range suits {
-		for val := minVal; minVal <= maxVal; val++ {
+		for val := minVal; val <= maxVal; val++ {
 			card := Card{
 				Value: val,
 				Suit:  suit,
