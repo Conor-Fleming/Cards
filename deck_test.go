@@ -33,9 +33,21 @@ func TestShuffle(t *testing.T) {
 func TestJokers(t *testing.T) {
 	for i := 1; i < 5; i++ {
 		one_joker := Jokers(i)
-		deck := New(one_joker)
-		if len(deck) != (52 + i) {
-			t.Errorf("wrong amount of Jokers in deck. Expected %v jokers but have %v", i, len(deck)-i)
+		newDeck := New(one_joker)
+		if len(newDeck) != (52 + i) {
+			t.Errorf("wrong amount of Jokers in deck. Expected %v jokers but have %v", i, len(newDeck)-i)
+		}
+	}
+}
+
+func TestFilter(t *testing.T) {
+	filt := func(card Card) bool {
+		return card.Value == 2 || card.Value == 5 || card.Value == 10
+	}
+	deck := New(Filter(filt))
+	for _, v := range deck {
+		if v.Value == 2 || v.Value == 5 || v.Value == 10 {
+			t.Errorf("error, %v not expected", v.Value)
 		}
 	}
 }
