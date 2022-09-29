@@ -100,3 +100,16 @@ func Jokers(n int) func([]Card) []Card {
 		return c
 	}
 }
+
+func Filter(deck []Card, cards ...int) []Card {
+	//loop through deck, check if card value equals a desired removed card
+	//remove from slice
+	for _, v := range cards {
+		for i, card := range deck {
+			if card.Value == Value(v) {
+				deck = append(deck[:i], deck[i+1:]...)
+			}
+		}
+	}
+	return deck
+}
