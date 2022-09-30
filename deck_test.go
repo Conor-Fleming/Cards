@@ -40,6 +40,15 @@ func TestJokers(t *testing.T) {
 	}
 }
 
+func TestExtraDecks(t *testing.T) {
+	for i := 1; i < 4; i++ {
+		testDeck := New(ExtraDecks(i))
+		if len(testDeck) != (52 + (i * 52)) {
+			t.Errorf("wrong amount of cards in this deck have %v,\nwant %v", len(testDeck), 52+(i*52))
+		}
+	}
+}
+
 func TestFilter(t *testing.T) {
 	filt := func(card Card) bool {
 		return card.Value == 2 || card.Value == 5 || card.Value == 10

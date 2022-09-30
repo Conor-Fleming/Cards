@@ -112,3 +112,13 @@ func Filter(filter func(card Card) bool) func([]Card) []Card {
 		return filtered_slice
 	}
 }
+
+func ExtraDecks(n int) func([]Card) []Card {
+	return func(c []Card) []Card {
+		extraDeck := c
+		for i := 0; i < n; i++ {
+			c = append(c, extraDeck...)
+		}
+		return c
+	}
+}
