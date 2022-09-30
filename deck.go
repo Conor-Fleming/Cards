@@ -1,3 +1,5 @@
+// Package deck provides an easy implementation of a standard deck of cards.
+// The package also includes some options such as shuffling, adding jokers, filtering cards, and adding multiple decks
 package deck
 
 import (
@@ -8,8 +10,10 @@ import (
 
 //go:generate stringer -type=Suit,Value
 
+// The Suit type represents a cards suit and can be a Spade, Diamond, Club, Heart, or Joker
 type Suit uint8
 
+// A card will contain one of these suits
 const (
 	Spade Suit = iota + 1
 	Diamond
@@ -20,8 +24,10 @@ const (
 
 var suits = [...]Suit{Spade, Diamond, Club, Heart}
 
+// The Value type represents a cards value Ace - King
 type Value uint8
 
+// A card will contain one of these values unless the card is of Suit Joker
 const (
 	Ace Value = iota + 1
 	Two
@@ -39,15 +45,18 @@ const (
 )
 
 const (
-	minVal = Ace
-	maxVal = King
+	minVal = Ace  // minimum card Value
+	maxVal = King // maximum card Value
 )
 
+// The Card type Reprents a Card from a deck of cards and contains a Value and a Suit
 type Card struct {
 	Value
 	Suit
 }
 
+// String handles the printing of a cards Value and Suit
+// If the card is of Suit Joker, the the String func will simply print "Joker"
 func (c Card) String() string {
 	if c.Suit == Joker {
 		return c.Suit.String()
@@ -55,8 +64,7 @@ func (c Card) String() string {
 	return fmt.Sprintf("%v of %vs", c.Value.String(), c.Suit.String())
 }
 
-// using functional options pattern to allow users to specify states of the Card deck i.e. sorted/shuffled/with jokers etc
-// without any options this will return the deck in the form of a brand new deck each suit in ascending order (A-K)
+// New
 func New(opts ...func([]Card) []Card) []Card {
 	var deck []Card
 	for _, suit := range suits {
