@@ -32,8 +32,7 @@ func TestShuffle(t *testing.T) {
 
 func TestJokers(t *testing.T) {
 	for i := 1; i < 5; i++ {
-		one_joker := Jokers(i)
-		newDeck := New(one_joker)
+		newDeck := New(Jokers(i))
 		if len(newDeck) != (52 + i) {
 			t.Errorf("wrong amount of Jokers in deck. Expected %v jokers but have %v", i, len(newDeck)-i)
 		}
