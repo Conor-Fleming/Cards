@@ -64,7 +64,8 @@ func (c Card) String() string {
 	return fmt.Sprintf("%v of %vs", c.Value.String(), c.Suit.String())
 }
 
-// New
+// New creates a new Deck and takes a variadic func parameter
+// the passed option functions can be used to do various things (shuffle)to the deck on creation
 func New(opts ...func([]Card) []Card) []Card {
 	var deck []Card
 	for _, suit := range suits {
@@ -82,10 +83,7 @@ func New(opts ...func([]Card) []Card) []Card {
 	return deck
 }
 
-//func Sort(deck []Card) []Card {
-
-//}
-
+// Shuffle takes a slice of Cards and returns a shuffled version of that slice
 func Shuffle(deck []Card) []Card {
 	temp := make([]Card, len(deck))
 	rand.Seed(time.Now().UnixNano())
@@ -97,6 +95,7 @@ func Shuffle(deck []Card) []Card {
 	return temp
 }
 
+// Jokers allows a specified number of jokers to the end of the deck
 func Jokers(n int) func([]Card) []Card {
 	return func(c []Card) []Card {
 		for i := 0; i < n; i++ {
@@ -109,6 +108,9 @@ func Jokers(n int) func([]Card) []Card {
 	}
 }
 
+// Filter is used to filter certain values from the deck at creation
+// It takes a 'filter function' that takes a card and returns a bool
+// This filter function can be used to specify what values should be filtered from deck
 func Filter(filter func(card Card) bool) func([]Card) []Card {
 	return func(c []Card) []Card {
 		var filtered_slice []Card
@@ -121,6 +123,7 @@ func Filter(filter func(card Card) bool) func([]Card) []Card {
 	}
 }
 
+// ExtraDecks takes an int n as the number of extra decks to be added to the original
 func ExtraDecks(n int) func([]Card) []Card {
 	return func(c []Card) []Card {
 		extraDeck := c
