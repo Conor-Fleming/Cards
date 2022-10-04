@@ -20,12 +20,35 @@ func main() {
 
 	//deal cards
 	deck := deck.New(deck.ExtraDecks(decks), deck.Shuffle)
-	dealer, player1 := deal(deck)
+	d, p1 := deal(deck)
+	dealer := Player{
+		Dealer: true,
+		Hand:   d,
+	}
+	player1 := Player{
+		Dealer: false,
+		Hand:   p1,
+	}
+
 	fmt.Println("The dealers hand:\n", dealer[1:])
 	fmt.Println("Player 1's hand:\n", player1)
 
 	//player can hit or stand
+	fmt.Println("Press 'h' to hit or 's' to stay")
 
+	quit := false
+	//main game loop
+	for quit {
+		//read hit or stay from user
+
+		//
+
+		fmt.Println("Press enter to play again or press q to quit")
+		
+		if //input == 'q' {
+			break
+		}
+	}
 }
 
 func deal(deck []Card) ([]Card, []Card) {
@@ -36,4 +59,16 @@ func deal(deck []Card) ([]Card, []Card) {
 	p1 = append(p1, deck[2])
 	dealer = append(dealer, deck[3])
 	return dealer, p1
+}
+
+func gameLoop() bool {
+
+}
+
+func getHandTotal(hand []Card) int {
+	total := 0
+	for _, v := range hand {
+		total += int(v.Value)
+	}
+	return total
 }
