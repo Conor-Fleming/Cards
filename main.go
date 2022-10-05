@@ -18,7 +18,9 @@ func main() {
 	//Decks sets the amount of extra decks to add to the intial deck
 	decks := 2
 	deck := deck.New(deck.ExtraDecks(decks), deck.Shuffle)
-	d, p1 := deal(deck)
+	fmt.Println(len(deck))
+	d, p1, deck := deal(deck)
+	fmt.Println(len(deck))
 	dealer := Player{
 		Dealer: true,
 		Hand:   d,
@@ -32,18 +34,36 @@ func main() {
 	fmt.Println("Player 1's hand:\n", player1.Hand)
 
 	//player can hit or stand
+	var hit string
 	fmt.Println("Press 'h' to hit or 's' to stay")
+	fmt.Scan(&hit)
+	if hit == "h" {
+		player1.Hand = append(player1.Hand, playerHit(deck))
+	}
+	fmt.Println("Player 1's hand:\n", player1.Hand)
 
 }
 
-func deal(deck []Card) ([]Card, []Card) {
+func deal(deck []Card) ([]Card, []Card, []Card) {
+	//needs to remove card from slice when dealing
+	//need to look into optimizing this function for multiple players
 	var p1 []Card
 	var dealer []Card
 	p1 = append(p1, deck[0])
+	deck = deck[1:]
 	dealer = append(dealer, deck[1])
+	deck = deck[1:]
 	p1 = append(p1, deck[2])
+	deck = deck[1:]
 	dealer = append(dealer, deck[3])
-	return dealer, p1
+	deck = deck[1:]
+	return dealer, p1, deck
+}
+
+func playerHit(deck []Card) Card {
+	card := deck[0]
+	deck = deck[1:]
+	return card
 }
 
 /*
