@@ -16,48 +16,34 @@ type Player struct {
 // version 1
 func main() {
 	//Decks sets the amount of extra decks to add to the intial deck
-	decks := 2
-	deck := deck.New(deck.ExtraDecks(decks), deck.Shuffle)
-	fmt.Println(len(deck))
-	d, p1, deck := deal(deck)
-	fmt.Println(len(deck))
-	dealer := Player{
-		Dealer: true,
-		Hand:   d,
-	}
-	player1 := Player{
-		Dealer: false,
-		Hand:   p1,
+	deck := deck.New(deck.ExtraDecks(2), deck.Shuffle)
+	var card Card
+	for i := 0; i < 10; i++ {
+		card, deck = deck[0], deck[1:]
+		fmt.Println(card)
 	}
 
-	fmt.Println("The dealers hand:\n", dealer.Hand[1:])
-	fmt.Println("Player 1's hand:\n", player1.Hand)
+	//dealer := Player{
+	//	Dealer: true,
+	//	Hand:   d,
+	//}
+	//player1 := Player{
+	//	Dealer: false,
+	//	Hand:   p1,
+	//}
+
+	//fmt.Println("The dealers hand:\n", dealer.Hand[1:])
+	//fmt.Println("Player 1's hand:\n", player1.Hand)
 
 	//player can hit or stand
-	var hit string
-	fmt.Println("Press 'h' to hit or 's' to stay")
-	fmt.Scan(&hit)
-	if hit == "h" {
-		player1.Hand = append(player1.Hand, playerHit(deck))
-	}
-	fmt.Println("Player 1's hand:\n", player1.Hand)
+	//var hit string
+	//fmt.Println("Press 'h' to hit or 's' to stay")
+	//fmt.Scan(&hit)
+	//if hit == "h" {
+	//player1.Hand = append(player1.Hand, playerHit(deck))
+	//}
+	//fmt.Println("Player 1's hand:\n", player1.Hand)
 
-}
-
-func deal(deck []Card) ([]Card, []Card, []Card) {
-	//needs to remove card from slice when dealing
-	//need to look into optimizing this function for multiple players
-	var p1 []Card
-	var dealer []Card
-	p1 = append(p1, deck[0])
-	deck = deck[1:]
-	dealer = append(dealer, deck[1])
-	deck = deck[1:]
-	p1 = append(p1, deck[2])
-	deck = deck[1:]
-	dealer = append(dealer, deck[3])
-	deck = deck[1:]
-	return dealer, p1, deck
 }
 
 func playerHit(deck []Card) Card {
