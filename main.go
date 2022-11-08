@@ -11,6 +11,8 @@ type Card = deck.Card
 
 type Hand []Card
 
+type Deck []Card
+
 func (h Hand) String() string {
 	stringsArr := make([]string, len(h))
 	for i := range h {
@@ -28,7 +30,12 @@ func main() {
 	// ?
 
 	//call deal function with that amount
-	allPlayers := deal(deck, 1)
+	allPlayers, deck := deal(deck, 5)
+
+	fmt.Println(len(allPlayers))
+
+	//need to find out how to access contents of allPlayers array
+	//might need pointers?
 
 	for i, v := range allPlayers {
 		if i == len(allPlayers)-1 {
@@ -39,9 +46,10 @@ func main() {
 	fmt.Println("Dealer: ", allPlayers[len(allPlayers)-1].String())
 }
 
-func deal(deck []deck.Card, players int) []Hand {
+func deal(deck Deck, players int) ([]Hand, Deck) {
 	//creating players and dealer hands
-	HandArr := make([]Hand, players+1)
+	HandArr := make([]Hand, 0)
+
 	for i := 0; i < players; i++ {
 		var player Hand
 		HandArr = append(HandArr, player)
@@ -55,10 +63,10 @@ func deal(deck []deck.Card, players int) []Hand {
 		v = append(v, card)
 	}
 
-	return HandArr
+	return HandArr, deck
 }
 
-func drawCard(deck []deck.Card) (Card, Hand) {
+func drawCard(deck Deck) (Card, Deck) {
 	card := deck[0]
 	deck = deck[1:]
 	return card, deck
