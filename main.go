@@ -9,16 +9,22 @@ import (
 
 type Card = deck.Card
 
-type Hand []Card
+type Hand struct {
+	hand   []Card
+	dealer bool
+}
 
 type Deck []Card
 
 func (h Hand) String() string {
-	stringsArr := make([]string, len(h))
-	for i := range h {
-		stringsArr[i] = h[i].String()
+	stringsArr := make([]string, len(h.hand))
+	if !h.dealer {
+		for i := range h.hand {
+			stringsArr[i] = h.hand[i].String()
+		}
+		return strings.Join(stringsArr, ", ")
 	}
-	return strings.Join(stringsArr, ", ")
+	return h.hand[1].String()
 }
 
 // version 1
@@ -30,7 +36,7 @@ func main() {
 	// ?
 
 	// call deal function with that amount
-	allPlayers, deck := deal(deck, 5)
+	allPlayers, deck := deal(deck, 1)
 	for i, v := range allPlayers {
 		if i == len(allPlayers)-1 {
 			continue
@@ -45,10 +51,16 @@ func deal(deck Deck, players int) ([]*Hand, Deck) {
 	HandArr := make([]*Hand, 0)
 
 	for i := 0; i < players; i++ {
-		var player Hand
+		player := Hand{
+			hand:   nil,
+			dealer: false,
+		}
 		HandArr = append(HandArr, &player)
 	}
-	var dealer Hand
+	dealer := Hand{
+		hand:   nil,
+		dealer: true,
+	}
 	HandArr = append(HandArr, &dealer)
 
 	// iterate through players and dealer twice and deal a card on each iteration
@@ -57,7 +69,7 @@ func deal(deck Deck, players int) ([]*Hand, Deck) {
 		for _, v := range HandArr {
 			card := deck[0]
 			deck = deck[1:]
-			*v = append(*v, card)
+			v.hand = append(v.hand, card)
 		}
 	}
 
