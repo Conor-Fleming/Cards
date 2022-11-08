@@ -24,16 +24,20 @@ func main() {
 	//Decks sets the amount of extra decks to add to the intial deck
 	deck := deck.New(deck.ExtraDecks(2), deck.Shuffle)
 
-	player := Hand{}
+	player, deck := deal(deck)
+	fmt.Println("Player hand: ", player.String())
+	dealer, deck := deal(deck)
+	fmt.Println("Dealer Hand: ", dealer.String())
 
-	test, deck := drawCard(deck)
-	player = append(player, test)
-	test, deck = drawCard(deck)
-	player = append(player, test)
-	test, deck = drawCard(deck)
-	player = append(player, test)
-	fmt.Println(player.String())
+}
 
+func deal(deck []deck.Card) (Hand, []deck.Card) {
+	var hand Hand
+	for i := 0; i < 2; i++ {
+		hand = append(hand, deck[i])
+		deck = deck[1:]
+	}
+	return hand, deck
 }
 
 func drawCard(deck []deck.Card) (Card, []deck.Card) {
