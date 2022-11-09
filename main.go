@@ -52,13 +52,14 @@ func main() {
 		for {
 			fmt.Println("Hit or stand?")
 			fmt.Scanf("%s", &move)
-
 			move = strings.ToLower(move)
+
+			// getting same value from each draw call
 			if move == "hit" {
 				hit, _ := drawCard(deck)
 				fmt.Println(hit.String())
 				allPlayers[i].hand = append(allPlayers[i].hand, hit)
-				fmt.Printf("Total ---> %v\n", getTotal(allPlayers[i].hand)+int(hit.Value))
+				fmt.Println(allPlayers[i].String())
 				continue
 			}
 
