@@ -41,9 +41,38 @@ func main() {
 		if i == len(allPlayers)-1 {
 			continue
 		}
-		fmt.Printf("Player %v: %v\n", i+1, v.String())
+		total := getTotal(v.hand)
+		fmt.Printf("Player %v: %v  Total-----> %v\n", i+1, v.String(), total)
 	}
 	fmt.Println("Dealer:", allPlayers[len(allPlayers)-1].String())
+
+	var move string
+
+	for _, v := range allPlayers {
+		for move != "stand" {
+			fmt.Println("Hit or stand?")
+			fmt.Scan("%s", &move)
+			move = strings.ToLower(move)
+
+			switch move {
+			case "hit":
+				hit, _ := drawCard(deck)
+				v.hand = append(v.hand, hit)
+			case "stand":
+				break
+			default:
+				fmt.Println("Invalid entry")
+			}
+		}
+	}
+}
+
+func getTotal(hand []deck.Card) int {
+	var total int
+	for _, v := range hand {
+		total += int(v.Value)
+	}
+	return total
 }
 
 func deal(deck Deck, players int) ([]*Hand, Deck) {
