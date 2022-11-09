@@ -48,21 +48,25 @@ func main() {
 
 	var move string
 
-	for _, v := range allPlayers {
-		for move != "stand" {
+	for i := 0; i < len(allPlayers)-1; i++ {
+		for {
 			fmt.Println("Hit or stand?")
-			fmt.Scan("%s", &move)
-			move = strings.ToLower(move)
+			fmt.Scanf("%s", &move)
 
-			switch move {
-			case "hit":
+			move = strings.ToLower(move)
+			if move == "hit" {
 				hit, _ := drawCard(deck)
-				v.hand = append(v.hand, hit)
-			case "stand":
-				break
-			default:
-				fmt.Println("Invalid entry")
+				fmt.Println(hit.String())
+				allPlayers[i].hand = append(allPlayers[i].hand, hit)
+				fmt.Printf("Total ---> %v\n", getTotal(allPlayers[i].hand)+int(hit.Value))
+				continue
 			}
+
+			if move == "stand" {
+				break
+			}
+
+			fmt.Println("Invalid entry")
 		}
 	}
 }
