@@ -41,25 +41,42 @@ func main() {
 		if i == len(allPlayers)-1 {
 			continue
 		}
-		total := getTotal(v.hand)
-		fmt.Printf("Player %v: %v  Total-----> %v\n", i+1, v.String(), total)
+		total, total2 := getTotal(v.hand)
+		if total2 == 0 {
+			fmt.Printf("Player %v: %v  Total-----> %v\n", i+1, v.String(), total)
+			continue
+		}
+		fmt.Printf("Player %v: %v  Total-----> %v / %v\n", i+1, v.String(), total, total2)
 	}
 	fmt.Println("Dealer:", allPlayers[len(allPlayers)-1].String())
+	fmt.Println()
 
 	var move string
+	var drawnCard Card
 
+	//should look into making this into game loop function?
 	for i := 0; i < len(allPlayers)-1; i++ {
+		iter := 0
+		fmt.Printf("Player %v's turn\n", i+1)
 		for {
+			if iter > 0 {
+				total, total2 := getTotal(allPlayers[i].hand)
+				if total2 == 0 {
+					fmt.Printf("Player %v: %v  Total-----> %v\n", i+1, allPlayers[i].String(), total)
+				} else {
+					fmt.Printf("Player %v: %v  Total-----> %v / %v\n", i+1, allPlayers[i].String(), total, total2)
+				}
+			}
 			fmt.Println("Hit or stand?")
+			iter++
 			fmt.Scanf("%s", &move)
 			move = strings.ToLower(move)
 
-			// getting same value from each draw call
 			if move == "hit" {
-				hit, _ := drawCard(deck)
-				fmt.Println(hit.String())
-				allPlayers[i].hand = append(allPlayers[i].hand, hit)
-				fmt.Println(allPlayers[i].String())
+				drawnCard, deck = drawCard(deck)
+				fmt.Println(drawnCard.String())
+				fmt.Println()
+				allPlayers[i].hand = append(allPlayers[i].hand, drawnCard)
 				continue
 			}
 
@@ -70,14 +87,29 @@ func main() {
 			fmt.Println("Invalid entry")
 		}
 	}
+
+	//need function to compare players hands with dealers hands and determine winner
 }
 
-func getTotal(hand []deck.Card) int {
+func getTotal(hand []deck.Card) (int, int) {
 	var total int
+	var total2 int
+	var aces int
 	for _, v := range hand {
+		if v.Value == 1 { //Ace card
+			aces += 1
+		}
 		total += int(v.Value)
 	}
-	return total
+
+	//this will need to be updated to account for multiple aces and the potential scores
+	if aces == 0 {
+		total2 = 0
+	} else {
+		total2 = total + (9 * aces)
+	}
+
+	return total, total2
 }
 
 func deal(deck Deck, players int) ([]*Hand, Deck) {
