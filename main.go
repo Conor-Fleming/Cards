@@ -118,6 +118,10 @@ func getTotal(hand []deck.Card) (int, int) {
 		if v.Value == 1 { //Ace card
 			aces += 1
 		}
+		if v.Value > 10 {
+			v.Value = 10
+		}
+		//using value of card (cards over 10 contain values 11, 12, 13) messing up math for blackjack
 		total += int(v.Value)
 	}
 
