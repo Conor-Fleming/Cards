@@ -37,6 +37,9 @@ func main() {
 
 	// call deal function with that amount
 	allPlayers, deck := deal(deck, 1)
+
+	dealer := allPlayers[len(allPlayers)-1]
+
 	for i, v := range allPlayers {
 		if i == len(allPlayers)-1 {
 			continue
@@ -48,7 +51,7 @@ func main() {
 		}
 		fmt.Printf("Player %v: %v  Total-----> %v / %v\n", i+1, v.String(), total, total2)
 	}
-	fmt.Println("Dealer:", allPlayers[len(allPlayers)-1].String())
+	fmt.Println("Dealer:", dealer.String())
 	fmt.Println()
 
 	var move string
@@ -62,9 +65,9 @@ func main() {
 			if iter > 0 {
 				total, total2 := getTotal(allPlayers[i].hand)
 				if total2 == 0 {
-					fmt.Printf("Player %v: %v  Total-----> %v\n", i+1, allPlayers[i].String(), total)
+					fmt.Printf("Player %v: %v  Total: %v\n", i+1, allPlayers[i].String(), total)
 				} else {
-					fmt.Printf("Player %v: %v  Total-----> %v / %v\n", i+1, allPlayers[i].String(), total, total2)
+					fmt.Printf("Player %v: %v  Total: %v / %v\n", i+1, allPlayers[i].String(), total, total2)
 				}
 			}
 			fmt.Println("Hit or stand?")
@@ -80,6 +83,13 @@ func main() {
 				continue
 			}
 
+			total, total2 := getTotal(allPlayers[i].hand)
+			if total2 == 0 {
+				fmt.Printf("Player %v: %v  Total: %v\n", i+1, allPlayers[i].String(), total)
+			} else {
+				fmt.Printf("Player %v: %v  Total: %v / %v\n", i+1, allPlayers[i].String(), total, total2)
+			}
+
 			if move == "stand" {
 				break
 			}
@@ -87,10 +97,19 @@ func main() {
 			fmt.Println("Invalid entry")
 		}
 	}
+	//display dealer hand
+	dealer.dealer = false
+	total, total2 := getTotal(dealer.hand)
+	if total2 == 0 {
+		fmt.Println("Dealer:", allPlayers[len(allPlayers)-1].String(), "Total:", total)
+	} else {
+		fmt.Printf("Dealer: %v  Total: %v / %v\n", dealer.String(), total, total2)
+	}
 
 	//need function to compare players hands with dealers hands and determine winner
 }
 
+// change to display hand -> cleans up main function
 func getTotal(hand []deck.Card) (int, int) {
 	var total int
 	var total2 int
