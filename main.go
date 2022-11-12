@@ -40,6 +40,14 @@ func main() {
 			if iter > 0 {
 				fmt.Printf("Player %v: %v\n", i+1, printTotal(*allPlayers[i]))
 			}
+			if checkBlackjack(*allPlayers[i]) {
+				fmt.Println("Blackjack! You win.")
+				break
+			}
+			if checkBust(*allPlayers[i]) {
+				fmt.Println("Bust. Dealer wins.")
+				break
+			}
 			fmt.Println("Hit or stand?")
 			iter++
 			fmt.Scanf("%s", &move)

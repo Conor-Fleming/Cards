@@ -27,6 +27,22 @@ func (h Hand) String() string {
 	return h.hand[1].String()
 }
 
+func checkBlackjack(hand Hand) bool {
+	total1, total2 := getTotal(hand)
+	if total1 == 21 || total2 == 21 {
+		return true
+	}
+	return false
+}
+
+func checkBust(hand Hand) bool {
+	total1, _ := getTotal(hand)
+	if total1 > 21 {
+		return true
+	}
+	return false
+}
+
 func printTotal(value Hand) string {
 	total, total2 := getTotal(value)
 	if total2 == 0 || total2 > 21 {
