@@ -44,12 +44,7 @@ func main() {
 		if i == len(allPlayers)-1 {
 			continue
 		}
-		total, total2 := getTotal(v.hand)
-		if total2 == 0 {
-			fmt.Printf("Player %v: %v  Total-----> %v\n", i+1, v.String(), total)
-			continue
-		}
-		fmt.Printf("Player %v: %v  Total-----> %v / %v\n", i+1, v.String(), total, total2)
+		fmt.Printf("Player %v: %v\n", i+1, printTotal(*v))
 	}
 	fmt.Println("Dealer:", dealer.String())
 	fmt.Println()
@@ -63,12 +58,7 @@ func main() {
 		fmt.Printf("Player %v's turn\n", i+1)
 		for {
 			if iter > 0 {
-				total, total2 := getTotal(allPlayers[i].hand)
-				if total2 == 0 {
-					fmt.Printf("Player %v: %v  Total: %v\n", i+1, allPlayers[i].String(), total)
-				} else {
-					fmt.Printf("Player %v: %v  Total: %v / %v\n", i+1, allPlayers[i].String(), total, total2)
-				}
+				fmt.Printf("Player %v: %v\n", i+1, printTotal(*allPlayers[i]))
 			}
 			fmt.Println("Hit or stand?")
 			iter++
@@ -82,13 +72,7 @@ func main() {
 				allPlayers[i].hand = append(allPlayers[i].hand, drawnCard)
 				continue
 			}
-
-			total, total2 := getTotal(allPlayers[i].hand)
-			if total2 == 0 {
-				fmt.Printf("Player %v: %v  Total: %v\n", i+1, allPlayers[i].String(), total)
-			} else {
-				fmt.Printf("Player %v: %v  Total: %v / %v\n", i+1, allPlayers[i].String(), total, total2)
-			}
+			fmt.Printf("Player %v: %v\n", i+1, printTotal(*allPlayers[i]))
 
 			if move == "stand" {
 				break
@@ -99,22 +83,24 @@ func main() {
 	}
 	//display dealer hand
 	dealer.dealer = false
-	total, total2 := getTotal(dealer.hand)
-	if total2 == 0 {
-		fmt.Println("Dealer:", allPlayers[len(allPlayers)-1].String(), "Total:", total)
-	} else {
-		fmt.Printf("Dealer: %v  Total: %v / %v\n", dealer.String(), total, total2)
+	fmt.Printf("Dealer : %v\n", printTotal(*allPlayers[len(allPlayers)-1]))
+}
+
+func printTotal(value Hand) string {
+	total, total2 := getTotal(value)
+	if total2 == 0 || total2 > 21 {
+		return fmt.Sprintf("%v  Total: %v\n", value.String(), total)
 	}
 
-	//need function to compare players hands with dealers hands and determine winner
+	return fmt.Sprintf("%v  Total: %v / %v\n", value.String(), total, total2)
 }
 
 // change to display hand -> cleans up main function
-func getTotal(hand []deck.Card) (int, int) {
+func getTotal(hand Hand) (int, int) {
 	var total int
 	var total2 int
 	var aces int
-	for _, v := range hand {
+	for _, v := range hand.hand {
 		if v.Value == 1 { //Ace card
 			aces += 1
 		}
@@ -129,9 +115,10 @@ func getTotal(hand []deck.Card) (int, int) {
 	if aces == 0 {
 		total2 = 0
 	} else {
-		total2 = total + (9 * aces)
+		total2 = total + (10 * aces)
 	}
 
+	//do logic checking for
 	return total, total2
 }
 
