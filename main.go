@@ -40,8 +40,6 @@ func main() {
 			if iter > 0 {
 				fmt.Printf("Player %v: %v\n", i+1, printTotal(*allPlayers[i]))
 			}
-			// may need to re think scoring for mulitple player games
-			// fine for now
 			if checkBlackjack(*allPlayers[i]) {
 				fmt.Println("Blackjack!")
 				break
@@ -78,13 +76,19 @@ func main() {
 
 	//dealer turn
 	dealer = dealerTurn(dealer, deck)
-
-	//compare scores //create function for this that contains checking logic
-	if findWinner(*dealer, *allPlayers[0]) {
-		fmt.Println("Dealer wins!")
+	if checkBust(*dealer) {
+		fmt.Println("Dealer busts.")
 	} else {
-		fmt.Println("You win!")
-	}
 
+		//compare scores //create function for this that contains checking logic
+		switch findWinner(*dealer, *allPlayers[0]) {
+		case "dealer":
+			fmt.Println("Dealer wins!")
+		case "player":
+			fmt.Println("Player wins!")
+		case "push":
+			fmt.Println("Push. It was a draw.")
+		}
+	}
 	//run through players with bust == false to compare scores
 }

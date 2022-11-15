@@ -54,13 +54,16 @@ func printTotal(value Hand) string {
 	return fmt.Sprintf("%v  Total: %v\n", value.String(), total)
 }
 
-func findWinner(dealer Hand, player Hand) bool {
+func findWinner(dealer Hand, player Hand) string {
 	dealerScore, _ := getTotal(dealer)
 	playerScore, _ := getTotal(player)
 	if dealerScore > playerScore {
-		return true
+		return "dealer"
 	}
-	return false
+	if dealerScore == playerScore {
+		return "push"
+	}
+	return "player"
 }
 
 func getTotal(hand Hand) (int, bool) {
