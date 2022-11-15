@@ -12,6 +12,7 @@ type Card = deck.Card
 type Hand struct {
 	hand   []Card
 	dealer bool
+	bust   bool
 }
 
 type Deck []Card
@@ -28,38 +29,38 @@ func (h Hand) String() string {
 }
 
 func checkBlackjack(hand Hand) bool {
-	total1, total2 := getTotal(hand)
-	if total1 == 21 || total2 == 21 {
+	total, _ := getTotal(hand)
+	if total == 21 {
 		return true
 	}
 	return false
 }
 
 func checkBust(hand Hand) bool {
-	total1, _ := getTotal(hand)
-	if total1 > 21 {
+	total, _ := getTotal(hand)
+	if total > 21 {
+		hand.bust = true
 		return true
 	}
 	return false
 }
 
 func printTotal(value Hand) string {
-	total, total2 := getTotal(value)
-	if total2 == 0 || total2 > 21 {
-		return fmt.Sprintf("%v  Total: %v\n", value.String(), total)
+	total, soft := getTotal(value)
+	if soft {
+		return fmt.Sprintf("%v  Total: %v / %v\n", value.String(), total-10, total)
 	}
 
-	return fmt.Sprintf("%v  Total: %v / %v\n", value.String(), total, total2)
+	return fmt.Sprintf("%v  Total: %v\n", value.String(), total)
 }
 
-// change to display hand -> cleans up main function
-func getTotal(hand Hand) (int, int) {
+func getTotal(hand Hand) (int, bool) {
 	var total int
-	var total2 int
-	var aces int
+	var ace bool
+	var soft bool
 	for _, v := range hand.hand {
 		if v.Value == 1 { //Ace card
-			aces += 1
+			ace = true
 		}
 		if v.Value > 10 {
 			v.Value = 10
@@ -68,15 +69,12 @@ func getTotal(hand Hand) (int, int) {
 		total += int(v.Value)
 	}
 
-	//this will need to be updated to account for multiple aces and the potential scores
-	if aces == 0 {
-		total2 = 0
-	} else {
-		total2 = total + (10 * aces)
+	if ace && total < 12 {
+		total += 10
+		soft = true
 	}
 
-	//do logic checking for
-	return total, total2
+	return total, soft
 }
 
 func deal(deck Deck, players int) ([]*Hand, Deck) {

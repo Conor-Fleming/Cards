@@ -40,8 +40,10 @@ func main() {
 			if iter > 0 {
 				fmt.Printf("Player %v: %v\n", i+1, printTotal(*allPlayers[i]))
 			}
+			// may need to re think scoring for mulitple player games
+			// fine for now
 			if checkBlackjack(*allPlayers[i]) {
-				fmt.Println("Blackjack! You win.")
+				fmt.Println("Blackjack!")
 				break
 			}
 			if checkBust(*allPlayers[i]) {
@@ -71,5 +73,9 @@ func main() {
 	}
 	//display dealer hand
 	dealer.dealer = false
-	fmt.Printf("Dealer : %v\n", printTotal(*allPlayers[len(allPlayers)-1]))
+	fmt.Printf("Dealer : %v\n", printTotal(*dealer))
+
+	//dealer turn
+
+	//run through players with bust == false to compare scores
 }
