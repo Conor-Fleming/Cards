@@ -72,10 +72,19 @@ func main() {
 		}
 	}
 	//display dealer hand
+
 	dealer.dealer = false
 	fmt.Printf("Dealer : %v\n", printTotal(*dealer))
 
 	//dealer turn
+	dealer = dealerTurn(dealer, deck)
+
+	//compare scores //create function for this that contains checking logic
+	if findWinner(*dealer, *allPlayers[0]) {
+		fmt.Println("Dealer wins!")
+	} else {
+		fmt.Println("You win!")
+	}
 
 	//run through players with bust == false to compare scores
 }
