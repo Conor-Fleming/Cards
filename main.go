@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/Conor-Fleming/deck/deck"
 )
@@ -29,57 +28,18 @@ func main() {
 	fmt.Println("Dealer:", dealer.String())
 	fmt.Println()
 
-	var move string
-	var drawnCard Card
-
 	//should look into making this into game loop function?
-	for i := 0; i < len(allPlayers)-1; i++ {
-		iter := 0
-		fmt.Printf("Player %v's turn\n", i+1)
-		for {
-			if iter > 0 {
-				fmt.Printf("Player %v: %v\n", i+1, printTotal(*allPlayers[i]))
-			}
-			if checkBlackjack(*allPlayers[i]) {
-				fmt.Println("Blackjack!")
-				break
-			}
-			if checkBust(*allPlayers[i]) {
-				fmt.Println("Bust. Dealer wins.")
-				break
-			}
-			fmt.Println("Hit or stand?")
-			iter++
-			fmt.Scanf("%s", &move)
-			move = strings.ToLower(move)
-
-			if move == "hit" {
-				drawnCard, deck = drawCard(deck)
-				fmt.Println(drawnCard.String())
-				fmt.Println()
-				allPlayers[i].hand = append(allPlayers[i].hand, drawnCard)
-				continue
-			}
-			fmt.Printf("Player %v: %v\n", i+1, printTotal(*allPlayers[i]))
-
-			if move == "stand" {
-				break
-			}
-
-			fmt.Println("Invalid entry")
-		}
-	}
+	allPlayers, deck = playerTurn(allPlayers, deck)
 	//display dealer hand
 
 	dealer.dealer = false
-	fmt.Printf("Dealer : %v\n", printTotal(*dealer))
+	fmt.Printf("Dealer: %v", printTotal(*dealer))
 
 	//dealer turn
-	dealer = dealerTurn(dealer, deck)
+	dealer, deck = dealerTurn(dealer, deck)
 	if checkBust(*dealer) {
 		fmt.Println("Dealer busts.")
 	} else {
-
 		//compare scores //create function for this that contains checking logic
 		switch findWinner(*dealer, *allPlayers[0]) {
 		case "dealer":

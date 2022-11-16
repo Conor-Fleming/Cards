@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func dealerTurn(dealer *Hand, deck Deck) *Hand {
+func dealerTurn(dealer *Hand, deck Deck) (*Hand, Deck) {
 	//check score, on 16 or less hit on soft 17 hit
 	var card Card
 	for {
@@ -12,7 +12,7 @@ func dealerTurn(dealer *Hand, deck Deck) *Hand {
 		}
 		card, deck = drawCard(deck)
 		dealer.hand = append(dealer.hand, card)
-		fmt.Println(printTotal(*dealer))
+		fmt.Println("Dealer hits...", card.String())
 	}
-	return dealer
+	return dealer, deck
 }
