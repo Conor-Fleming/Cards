@@ -12,10 +12,14 @@ func main() {
 	deck := deck.New(deck.ExtraDecks(2), deck.Shuffle)
 
 	// get input for how many players
-	// ?
+	fmt.Println("Welcome to Blackjack")
+
+	fmt.Println("How many players?")
+	var numPlayers int
+	fmt.Scanf("%v", &numPlayers)
 
 	// call deal function with that amount
-	allPlayers, deck := deal(deck, 1)
+	allPlayers, deck := deal(deck, numPlayers)
 
 	dealer := allPlayers[len(allPlayers)-1]
 
@@ -31,24 +35,16 @@ func main() {
 	//should look into making this into game loop function?
 	allPlayers, deck = playerTurn(allPlayers, deck)
 	//display dealer hand
+	fmt.Println(len(allPlayers) - 1)
 
 	dealer.dealer = false
 	fmt.Printf("Dealer: %v", printTotal(*dealer))
 
 	//dealer turn
 	dealer, deck = dealerTurn(dealer, deck)
-	if checkBust(*dealer) {
+	if dealer.checkBust() {
 		fmt.Println("Dealer busts.")
-	} else {
-		//compare scores //create function for this that contains checking logic
-		switch findWinner(*dealer, *allPlayers[0]) {
-		case "dealer":
-			fmt.Println("Dealer wins!")
-		case "player":
-			fmt.Println("Player wins!")
-		case "push":
-			fmt.Println("Push. It was a draw.")
-		}
 	}
-	//run through players with bust == false to compare scores
+
+	findWinner(dealer, allPlayers)
 }

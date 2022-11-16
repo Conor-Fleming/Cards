@@ -28,18 +28,18 @@ func (h Hand) String() string {
 	return h.hand[1].String()
 }
 
-func checkBlackjack(hand Hand) bool {
-	total, _ := getTotal(hand)
+func (h Hand) checkBlackjack() bool {
+	total, _ := getTotal(h)
 	if total == 21 {
 		return true
 	}
 	return false
 }
 
-func checkBust(hand Hand) bool {
-	total, _ := getTotal(hand)
+func (h Hand) checkBust() bool {
+	total, _ := getTotal(h)
 	if total > 21 {
-		hand.bust = true
+		h.bust = true
 		return true
 	}
 	return false
@@ -54,16 +54,29 @@ func printTotal(value Hand) string {
 	return fmt.Sprintf("%v  Total: %v\n", value.String(), total)
 }
 
-func findWinner(dealer Hand, player Hand) string {
-	dealerScore, _ := getTotal(dealer)
-	playerScore, _ := getTotal(player)
-	if dealerScore > playerScore {
-		return "dealer"
+// will need to change to accept array of players
+// when adding bets can be checked here, element in struct?
+func findWinner(dealer *Hand, players []*Hand) {
+	dealerScore, _ := getTotal(*dealer)
+	fmt.Println(dealerScore)
+	for i, player := range players[:len(players)-1] {
+		//check if dealer was bust, if true and player !bust then player wins
+		playerScore, _ := getTotal(*player)
+		if !player.bust {
+			var result string
+			switch {
+			case dealerScore > playerScore:
+				result = "Lose."
+			case dealerScore < playerScore:
+				result = "Win!"
+			default:
+				result = "Push"
+			}
+			fmt.Printf("Player %v -> %v: %v\n", i+1, playerScore, result)
+		} else {
+			fmt.Printf("Player %v -> %v: BUST\n", i+1, playerScore)
+		}
 	}
-	if dealerScore == playerScore {
-		return "push"
-	}
-	return "player"
 }
 
 func getTotal(hand Hand) (int, bool) {

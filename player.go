@@ -16,12 +16,13 @@ func playerTurn(allPlayers []*Hand, deck Deck) ([]*Hand, Deck) {
 			if iter > 0 {
 				fmt.Printf("Player %v: %v\n", i+1, printTotal(*allPlayers[i]))
 			}
-			if checkBlackjack(*allPlayers[i]) {
+			if allPlayers[i].checkBlackjack() {
 				fmt.Println("Blackjack!")
 				break
 			}
-			if checkBust(*allPlayers[i]) {
+			if allPlayers[i].checkBust() {
 				fmt.Println("Bust.")
+				allPlayers[i].bust = true
 				break
 			}
 			fmt.Println("Hit or stand?")
