@@ -58,13 +58,15 @@ func printTotal(value Hand) string {
 // when adding bets can be checked here, element in struct?
 func findWinner(dealer *Hand, players []*Hand) {
 	dealerScore, _ := getTotal(*dealer)
-	fmt.Println(dealerScore)
+	fmt.Println("Dealer -->", dealerScore)
 	for i, player := range players[:len(players)-1] {
 		//check if dealer was bust, if true and player !bust then player wins
 		playerScore, _ := getTotal(*player)
 		if !player.bust {
 			var result string
 			switch {
+			case dealer.bust:
+				result = "Win!"
 			case dealerScore > playerScore:
 				result = "Lose."
 			case dealerScore < playerScore:
