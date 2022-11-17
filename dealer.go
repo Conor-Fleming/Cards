@@ -17,7 +17,7 @@ func dealerTurn(dealer *Hand, deck Deck) (*Hand, Deck) {
 		dealer.hand = append(dealer.hand, card)
 		total, _ = getTotal(*dealer)
 		fmt.Printf("Dealer hits... %v Total: %v\n", card.String(), total)
-		time.Sleep(time.Second)
+		time.Sleep(time.Second * 2)
 	}
 	return dealer, deck
 }
