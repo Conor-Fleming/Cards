@@ -13,6 +13,8 @@ type Hand struct {
 	hand   []Card
 	dealer bool
 	bust   bool
+	wins   int
+	losses int
 }
 
 type Deck []Card
@@ -67,15 +69,19 @@ func findWinner(dealer *Hand, players []*Hand) {
 			switch {
 			case dealer.bust:
 				result = "Win!"
+				player.wins++
 			case dealerScore > playerScore:
 				result = "Lose."
+				player.losses++
 			case dealerScore < playerScore:
 				result = "Win!"
+				player.wins++
 			default:
 				result = "Push"
 			}
 			fmt.Printf("Player %v -> %v: %v\n", i+1, playerScore, result)
 		} else {
+			player.losses++
 			fmt.Printf("Player %v -> %v: BUST\n", i+1, playerScore)
 		}
 	}
@@ -138,4 +144,12 @@ func drawCard(deck Deck) (Card, Deck) {
 	card := deck[0]
 	deck = deck[1:]
 	return card, deck
+}
+
+func stats(players []*Hand) string {
+	statsOutput := "*** STATS ***\n"
+	for i, player := range players[:len(players)-1] {
+		statsOutput += fmt.Sprintf("Player %v:\nwins:%v   losses:%v\n", i+1, player.wins, player.losses)
+	}
+	return statsOutput
 }
