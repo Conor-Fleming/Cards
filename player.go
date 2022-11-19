@@ -15,20 +15,15 @@ func playerTurn(allPlayers []*Hand, deck Deck) ([]*Hand, Deck) {
 		fmt.Printf("\nPlayer %v's turn (Total: %v)\n", i+1, total)
 		for {
 			if iter > 0 {
-				fmt.Printf("Player %v: %v\n", i+1, printTotal(*allPlayers[i]))
+				fmt.Printf("Player %v: %v", i+1, printTotal(*allPlayers[i]))
 			}
-			if allPlayers[i].checkBlackjack() {
-				fmt.Println("Blackjack!")
-				break
-			}
-			if allPlayers[i].checkBust() {
-				fmt.Println("Bust.")
-				fmt.Println()
-				allPlayers[i].bust = true
-				break
-			}
-			fmt.Println("Hit or stand?")
 			iter++
+
+			if scoreCheck(allPlayers[i]) {
+				break
+			}
+
+			fmt.Println("Hit or stand?")
 			fmt.Scanf("%s", &move)
 			move = strings.ToLower(move)
 			if move == "hit" {
@@ -38,11 +33,21 @@ func playerTurn(allPlayers []*Hand, deck Deck) ([]*Hand, Deck) {
 				continue
 			}
 			if move == "stand" {
-				fmt.Println()
 				break
 			}
 			fmt.Println("Invalid entry")
 		}
 	}
 	return allPlayers, deck
+}
+
+func scoreCheck(h *Hand) bool {
+	if h.checkBust() {
+		h.bust = true
+		return true
+	}
+	if h.checkBlackjack() {
+		return true
+	}
+	return false
 }

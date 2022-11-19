@@ -34,6 +34,8 @@ func (h Hand) String() string {
 func (h Hand) checkBlackjack() bool {
 	total, _ := getTotal(h)
 	if total == 21 {
+		fmt.Println("Blackjack!")
+		fmt.Println()
 		return true
 	}
 	return false
@@ -42,6 +44,7 @@ func (h Hand) checkBlackjack() bool {
 func (h Hand) checkBust() bool {
 	total, _ := getTotal(h)
 	if total > 21 {
+		fmt.Println("Bust!")
 		return true
 	}
 	return false
