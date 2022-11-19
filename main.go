@@ -12,8 +12,8 @@ func main() {
 	fmt.Println("Welcome to Blackjack")
 	fmt.Println("How many players?")
 	var numPlayers int
-
 	fmt.Scanf("%v", &numPlayers)
+	fmt.Println()
 
 	deck := deck.New(deck.ExtraDecks(2), deck.Shuffle)
 	allPlayers, deck := deal(deck, numPlayers)
@@ -21,25 +21,31 @@ func main() {
 
 	//create game loop, ask to play again after each round
 	cont := true
-	initial := true
+	initialLoop := true
+
 	for cont {
 		var test []*Hand
-		if !initial {
-			test, deck = deal(deck, numPlayers)
-		}
-		initial = false
-		// call deal function with that amount
-
-		for i, v := range allPlayers {
-			v.hand = test[i].hand
-			if i == len(allPlayers)-1 {
-				continue
+		if initialLoop {
+			initialLoop = false
+			for i, v := range allPlayers {
+				if i == len(allPlayers)-1 {
+					continue
+				}
+				fmt.Printf("Player %v: %v\n", i+1, printTotal(*v))
 			}
-			fmt.Printf("Player %v: %v\n", i+1, printTotal(*v))
+			fmt.Println("Dealer:", dealer.String())
+		} else {
+			test, deck = deal(deck, numPlayers)
+			for i, v := range allPlayers {
+				v.hand = test[i].hand
+				if i == len(allPlayers)-1 {
+					v.dealer = true
+					continue
+				}
+				fmt.Printf("Player %v: %v\n", i+1, printTotal(*v))
+			}
+			fmt.Println("Dealer:", dealer.String())
 		}
-		fmt.Println("Dealer:", dealer.String())
-		fmt.Println()
-
 		//should look into making this into game loop function?
 		allPlayers, deck = playerTurn(allPlayers, deck)
 		//display dealer hand

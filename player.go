@@ -11,7 +11,8 @@ func playerTurn(allPlayers []*Hand, deck Deck) ([]*Hand, Deck) {
 
 	for i := 0; i < len(allPlayers)-1; i++ {
 		iter := 0
-		fmt.Printf("Player %v's turn\n", i+1)
+		total, _ := getTotal(*allPlayers[i])
+		fmt.Printf("\nPlayer %v's turn (Total: %v)\n", i+1, total)
 		for {
 			if iter > 0 {
 				fmt.Printf("Player %v: %v\n", i+1, printTotal(*allPlayers[i]))
@@ -29,19 +30,15 @@ func playerTurn(allPlayers []*Hand, deck Deck) ([]*Hand, Deck) {
 			iter++
 			fmt.Scanf("%s", &move)
 			move = strings.ToLower(move)
-
 			if move == "hit" {
 				card, deck = drawCard(deck)
-				fmt.Println("Player hits...", card.String())
+				printHit(card)
 				allPlayers[i].hand = append(allPlayers[i].hand, card)
 				continue
 			}
-			//fmt.Printf("Player %v: %v\n", i+1, printTotal(*allPlayers[i]))
-
 			if move == "stand" {
 				break
 			}
-
 			fmt.Println("Invalid entry")
 		}
 	}

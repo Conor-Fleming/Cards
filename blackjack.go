@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/Conor-Fleming/deck/deck"
 )
@@ -151,4 +152,16 @@ func stats(players []*Hand) string {
 		statsOutput += fmt.Sprintf("Player %v:\nwins:%v   losses:%v\n", i+1, player.wins, player.losses)
 	}
 	return statsOutput
+}
+
+func printHit(card Card) {
+	fmt.Print("Player hits")
+	time.Sleep(time.Second / 2)
+	fmt.Print(".")
+	time.Sleep(time.Second / 2)
+	fmt.Print(".")
+	time.Sleep(time.Second / 2)
+	fmt.Print(".")
+	time.Sleep(time.Second / 2)
+	fmt.Println(card.String())
 }
