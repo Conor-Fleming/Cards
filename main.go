@@ -15,15 +15,23 @@ func main() {
 
 	fmt.Scanf("%v", &numPlayers)
 
+	deck := deck.New(deck.ExtraDecks(2), deck.Shuffle)
+	allPlayers, deck := deal(deck, numPlayers)
+	dealer := allPlayers[len(allPlayers)-1]
+
 	//create game loop, ask to play again after each round
 	cont := true
+	initial := true
 	for cont {
+		var test []*Hand
+		if !initial {
+			test, deck = deal(deck, numPlayers)
+		}
+		initial = false
 		// call deal function with that amount
-		deck := deck.New(deck.ExtraDecks(2), deck.Shuffle)
-		allPlayers, deck := deal(deck, numPlayers)
-		dealer := allPlayers[len(allPlayers)-1]
 
 		for i, v := range allPlayers {
+			v.hand = test[i].hand
 			if i == len(allPlayers)-1 {
 				continue
 			}
@@ -43,6 +51,7 @@ func main() {
 		//dealer turn
 		dealer, deck = dealerTurn(dealer, deck)
 		if dealer.checkBust() {
+			dealer.bust = true
 			fmt.Println("Dealer busts.")
 		}
 
@@ -54,6 +63,7 @@ func main() {
 		if input == "no" {
 			cont = false
 			fmt.Println()
+			//win loss data is not persiting
 			fmt.Println(stats(allPlayers))
 		}
 	}

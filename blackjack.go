@@ -41,7 +41,6 @@ func (h Hand) checkBlackjack() bool {
 func (h Hand) checkBust() bool {
 	total, _ := getTotal(h)
 	if total > 21 {
-		h.bust = true
 		return true
 	}
 	return false
