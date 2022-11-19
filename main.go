@@ -24,7 +24,7 @@ func main() {
 	initialLoop := true
 
 	for cont {
-		var test []*Hand
+		var newHands []*Hand
 		if initialLoop {
 			initialLoop = false
 			for i, v := range allPlayers {
@@ -35,9 +35,10 @@ func main() {
 			}
 			fmt.Println("Dealer:", dealer.String())
 		} else {
-			test, deck = deal(deck, numPlayers)
+			//subsequent rounds require the players hands to be replaced with newly dealt hands
+			newHands, deck = deal(deck, numPlayers)
 			for i, v := range allPlayers {
-				v.hand = test[i].hand
+				v.hand = newHands[i].hand
 				if i == len(allPlayers)-1 {
 					v.dealer = true
 					continue
@@ -46,30 +47,31 @@ func main() {
 			}
 			fmt.Println("Dealer:", dealer.String())
 		}
-		//should look into making this into game loop function?
+		//players turns
 		allPlayers, deck = playerTurn(allPlayers, deck)
-		//display dealer hand
-		fmt.Println(len(allPlayers) - 1)
 
+		//revealing dealers second card and total
 		dealer.dealer = false
 		fmt.Printf("Dealer: %v", printTotal(*dealer))
 
-		//dealer turn
+		//dealers turn
 		dealer, deck = dealerTurn(dealer, deck)
 		if dealer.checkBust() {
 			dealer.bust = true
 			fmt.Println("Dealer busts.")
 		}
 
+		//compare scores and track wins and losses
 		findWinner(dealer, allPlayers)
 
+		//ask user if they want to keep playing
+		//if yes loop continues, if no stats will display for session
 		fmt.Println("Play again? Type yes or no")
 		var input string
 		fmt.Scanf("%v", &input)
 		if input == "no" {
 			cont = false
 			fmt.Println()
-			//win loss data is not persiting
 			fmt.Println(stats(allPlayers))
 		}
 	}

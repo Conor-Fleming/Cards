@@ -1,10 +1,5 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
-
 func dealerTurn(dealer *Hand, deck Deck) (*Hand, Deck) {
 	//check score, on 16 or less hit on soft 17 hit
 	var card Card
@@ -16,8 +11,7 @@ func dealerTurn(dealer *Hand, deck Deck) (*Hand, Deck) {
 		card, deck = drawCard(deck)
 		dealer.hand = append(dealer.hand, card)
 		total, _ = getTotal(*dealer)
-		fmt.Printf("Dealer hits... %v Total: %v\n", card.String(), total)
-		time.Sleep(time.Second * 2)
+		printHit(card, "Dealer")
 	}
 	return dealer, deck
 }

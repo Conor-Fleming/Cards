@@ -23,6 +23,7 @@ func playerTurn(allPlayers []*Hand, deck Deck) ([]*Hand, Deck) {
 			}
 			if allPlayers[i].checkBust() {
 				fmt.Println("Bust.")
+				fmt.Println()
 				allPlayers[i].bust = true
 				break
 			}
@@ -32,11 +33,12 @@ func playerTurn(allPlayers []*Hand, deck Deck) ([]*Hand, Deck) {
 			move = strings.ToLower(move)
 			if move == "hit" {
 				card, deck = drawCard(deck)
-				printHit(card)
+				printHit(card, "Player")
 				allPlayers[i].hand = append(allPlayers[i].hand, card)
 				continue
 			}
 			if move == "stand" {
+				fmt.Println()
 				break
 			}
 			fmt.Println("Invalid entry")

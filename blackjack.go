@@ -154,10 +154,8 @@ func stats(players []*Hand) string {
 	return statsOutput
 }
 
-func printHit(card Card) {
-	fmt.Print("Player hits")
-	time.Sleep(time.Second / 2)
-	fmt.Print(".")
+func printHit(card Card, player string) {
+	fmt.Printf("%v hits.", player)
 	time.Sleep(time.Second / 2)
 	fmt.Print(".")
 	time.Sleep(time.Second / 2)
