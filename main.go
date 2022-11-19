@@ -24,31 +24,7 @@ func main() {
 	initialLoop := true
 
 	for cont {
-		var newHands []*Hand
-		if initialLoop {
-			initialLoop = false
-			fmt.Println("************************")
-			for i, v := range allPlayers {
-				if i == len(allPlayers)-1 {
-					continue
-				}
-				fmt.Printf("Player %v: %v\n", i+1, printTotal(*v))
-			}
-			fmt.Println("Dealer:", dealer.String())
-			fmt.Println("************************")
-		} else {
-			//subsequent rounds require the players hands to be replaced with newly dealt hands
-			newHands, deck = deal(deck, numPlayers)
-			for i, v := range allPlayers {
-				v.hand = newHands[i].hand
-				if i == len(allPlayers)-1 {
-					v.dealer = true
-					continue
-				}
-				fmt.Printf("Player %v: %v\n", i+1, printTotal(*v))
-			}
-			fmt.Println("Dealer:", dealer.String())
-		}
+		showHands(initialLoop, allPlayers, deck)
 		//players turns
 		allPlayers, deck = playerTurn(allPlayers, deck)
 
@@ -73,5 +49,38 @@ func main() {
 			fmt.Println()
 			fmt.Println(stats(allPlayers))
 		}
+	}
+}
+
+func showHands(initialLoop bool, allPlayers []*Hand, deck Deck) {
+	dealer := allPlayers[len(allPlayers)-1]
+	var newHands []*Hand
+	numPlayers := len(allPlayers) - 1
+
+	if initialLoop {
+		initialLoop = false
+		fmt.Println("************************")
+		for i, v := range allPlayers {
+			if i == len(allPlayers)-1 {
+				continue
+			}
+			fmt.Printf("Player %v: %v\n", i+1, printTotal(*v))
+		}
+		fmt.Println("Dealer:", dealer.String())
+		fmt.Println("************************")
+	} else {
+		//subsequent rounds require the players hands to be replaced with newly dealt hands
+		newHands, deck = deal(deck, numPlayers)
+		fmt.Println("************************")
+		for i, v := range allPlayers {
+			v.hand = newHands[i].hand
+			if i == len(allPlayers)-1 {
+				v.dealer = true
+				continue
+			}
+			fmt.Printf("Player %v: %v\n", i+1, printTotal(*v))
+		}
+		fmt.Println("Dealer:", dealer.String())
+		fmt.Println("************************")
 	}
 }
